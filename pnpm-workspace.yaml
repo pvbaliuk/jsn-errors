@@ -1,0 +1,12 @@
+blockExoticSubdeps: true
+catalog:
+  tsdown: ^0.22.14
+  typescript: ^5.9.3
+catalogMode: strict
+ignoreDepScripts: true
+minimumReleaseAge: 20160 # 30 days
+minimumReleaseAgeExclude:
+  - '@jsnw/*'
+minimumReleaseAgeIgnoreMissingTime: false
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 40320 # 60 days

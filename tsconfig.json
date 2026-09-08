@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "newLine": "lf",
+    "composite": false,
+
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    "target": "ES2021",
+    "lib": ["ES2021", "DOM"],
+    "types": ["node", "jest"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": false,
+    "noEmit": false,
+    "useDefineForClassFields": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": true,
+
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": false,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowUnreachableCode": true,
+    "customConditions": ["dev"]
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["./tests/*.spec.ts"]
+}
