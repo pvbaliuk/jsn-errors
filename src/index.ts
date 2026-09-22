@@ -106,7 +106,7 @@ export class ConflictError extends JsnwError<{ entity: string; field?: string; v
 
     protected getMessage(): string {
         return this.context.field
-            ? `${this.context.entity} conflict on ${this.context.field}: ${JSON.stringify(this.context.value)}`
+            ? `${this.context.entity} conflict on \'${this.context.field}\'${this.context.value ? ':' + JSON.stringify(this.context.value) : ''}`
             : `${this.context.entity} conflict`;
     }
 
@@ -150,7 +150,7 @@ export class ForbiddenError extends JsnwError<{ action?: string; resource?: stri
 
 }
 
-export class ExternalServiceError extends JsnwError<{ service: string; operation?: string; }> {
+export class ExternalServiceError<TDetails extends Record<string, unknown> = Record<string, unknown>> extends JsnwError<{ service: string; operation?: string; details?: TDetails; }> {
 
     public get name(): string {
         return 'ExternalServiceError';
