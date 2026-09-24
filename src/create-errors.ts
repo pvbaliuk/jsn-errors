@@ -7,9 +7,7 @@ export function createErrors(RootError: AnyRootErrorInstance) {
             expected?: string;
             actual?: string;
         }> {
-            public override get name(): string {
-                return 'InvalidArgumentError';
-            }
+            protected static override errorName = 'InvalidArgumentError';
 
             public override getMessage(): string {
                 const details = [
@@ -21,9 +19,7 @@ export function createErrors(RootError: AnyRootErrorInstance) {
             }
         },
         ConfigurationError: class ConfigurationError extends RootError<{ key: string; reason?: string; }> {
-            public override get name(): string {
-                return 'ConfigurationError';
-            }
+            protected static override errorName = 'ConfigurationError';
 
             public override getMessage(): string {
                 return `Invalid configuration: ${this.context.key}` + (
@@ -32,14 +28,10 @@ export function createErrors(RootError: AnyRootErrorInstance) {
             }
         },
         TimeoutError: class TimeoutError extends RootError {
-            public override get name(): string {
-                return 'TimeoutError';
-            }
+            protected static override errorName = 'TimeoutError';
         },
         RateLimitError: class RateLimitError extends RootError<{ retryAfterMs?: number; limit?: number; }> {
-            public override get name(): string {
-                return 'RateLimitError';
-            }
+            protected static override errorName = 'RateLimitError';
 
             public override getMessage(): string {
                 return 'Rate limit exceeded' + (
@@ -50,9 +42,7 @@ export function createErrors(RootError: AnyRootErrorInstance) {
         ValidationError: class ValidationError extends RootError<{
             issues: Array<{ path: (string | number)[]; message: string; }>
         }> {
-            public override get name(): string {
-                return 'ValidationError';
-            }
+            protected static override errorName = 'ValidationError';
 
             public override getMessage(): string {
                 const first = this.context.issues[0];
@@ -63,9 +53,7 @@ export function createErrors(RootError: AnyRootErrorInstance) {
             }
         },
         NotImplementedError: class NotImplementedError extends RootError<{ feature?: string; }> {
-            public override get name(): string {
-                return 'NotImplementedError';
-            }
+            protected static override errorName = 'NotImplementedError';
 
             public override getMessage(): string {
                 return this.context.feature
@@ -74,9 +62,7 @@ export function createErrors(RootError: AnyRootErrorInstance) {
             }
         },
         ParseError: class ParseError extends RootError<{ input?: string; format?: string; }> {
-            public override get name(): string {
-                return 'ParseError';
-            }
+            protected static override errorName = 'ParseError';
 
             public override getMessage(): string {
                 return `Failed to parse ${this.context.format ? ' ' + this.context.format : ''}`;
@@ -87,9 +73,7 @@ export function createErrors(RootError: AnyRootErrorInstance) {
             operation?: string;
             details?: TDetails;
         }> {
-            public override get name(): string {
-                return 'ExternalServiceError';
-            }
+            protected static override errorName = 'ExternalServiceError';
 
             public override getMessage(): string {
                 return `External service failure: ${this.context.service}`
@@ -97,18 +81,14 @@ export function createErrors(RootError: AnyRootErrorInstance) {
             }
         },
         UnauthorizedError: class UnauthorizedError extends RootError {
-            public override get name(): string {
-                return 'UnauthorizedError';
-            }
+            protected static override errorName = 'UnauthorizedError';
 
             public override getMessage(): string {
                 return 'Authentication required';
             }
         },
         ForbiddenError: class ForbiddenError extends RootError<{ action?: string; resource?: string; }> {
-            public override get name(): string {
-                return 'ForbiddenError';
-            }
+            protected static override errorName = 'ForbiddenError';
 
             public override getMessage(): string {
                 return this.context.action && this.context.resource

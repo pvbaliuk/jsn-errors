@@ -7,10 +7,11 @@ export type ErrorParams<T extends ErrorContext = {}> =
 
 export function createRootError(marker: symbol, name?: string) {
     class RootError<T extends ErrorContext = {}> extends Error {
+        protected static errorName: string = 'RootError';
         public readonly [marker] = true;
 
         public get name(): string {
-            return name ?? 'RootError';
+            return (this.constructor as typeof RootError).errorName ?? name ?? 'RootError';
         }
 
         public readonly message: string;
@@ -19,8 +20,14 @@ export function createRootError(marker: symbol, name?: string) {
         public readonly isRetryable: boolean;
         public readonly cause?: Error;
 
-        public static isInstance(error: unknown): error is InstanceType<typeof RootError> {
-            return typeof error === 'object' && error !== null && marker in error;
+        public static isInstance<T extends new (...args: any[]) => any>(this: T, error: unknown): error is InstanceType<T> {
+            if(error instanceof this)
+                return true;
+
+            return typeof error === 'object' && error !== null
+                && marker in error
+                && 'name' in error && typeof error['name'] === 'string'
+                && error['name'] === (this as unknown as typeof RootError).errorName;
         }
 
         public constructor(
