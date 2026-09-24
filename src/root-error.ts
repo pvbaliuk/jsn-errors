@@ -5,17 +5,12 @@ export type ErrorParams<T extends ErrorContext = {}> =
     (IfAllPropertiesOptional<T, { context?: T; }, { context: T; }>)
     & { message?: string; cause?: Error; isRetryable?: boolean; };
 
-export type CreateErrorOptions = {
-    marker: symbol;
-    name?: string;
-}
-
-export function createRootError(options: CreateErrorOptions) {
-    abstract class RootError<T extends ErrorContext = {}> extends Error {
-        public readonly [options.marker] = true;
+export function createRootError(marker: symbol, name?: string) {
+    class RootError<T extends ErrorContext = {}> extends Error {
+        public readonly [marker] = true;
 
         public get name(): string {
-            return options.name ?? 'RootError';
+            return name ?? 'RootError';
         }
 
         public readonly message: string;
@@ -25,7 +20,7 @@ export function createRootError(options: CreateErrorOptions) {
         public readonly cause?: Error;
 
         public static isInstance(error: unknown): error is InstanceType<typeof RootError> {
-            return typeof error === 'object' && error !== null && options.marker in error;
+            return typeof error === 'object' && error !== null && marker in error;
         }
 
         public constructor(
