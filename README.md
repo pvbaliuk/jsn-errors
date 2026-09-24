@@ -31,3 +31,15 @@ export const AllMyErrors = {
     RootError
 } as const;
 ```
+
+### Currently available common errors
+- `NotImplementedError`
+- `InvalidArgumentError`
+- `ConfigurationError`
+- `TimeoutError`
+- `RateLimitError`
+- `ValidationError`
+- `ParseError`
+- `ExternalServiceError`
+- `UnauthorizedError`
+- `ForbiddenError`
