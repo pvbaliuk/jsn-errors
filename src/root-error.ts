@@ -7,7 +7,7 @@ export type ErrorParams<T extends ErrorContext = {}> =
 
 export function createRootError(marker: symbol, name?: string) {
     class RootError<T extends ErrorContext = {}> extends Error {
-        protected static errorName: string = 'RootError';
+        public static errorName: string = 'RootError';
         public readonly [marker] = true;
 
         public get name(): string {
