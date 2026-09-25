@@ -104,6 +104,15 @@ export function createErrors(RootError: AnyRootErrorInstance) {
                     ? `${this.context.entity} conflict on \'${this.context.field}\'${this.context.value ? ': ' + JSON.stringify(this.context.value) : ''}`
                     : `${this.context.entity} conflict`;
             }
+        },
+        NotFoundError: class NotFoundError extends RootError<{entity: string; field?: string; value?: unknown;}>{
+            public static override errorName = 'NotFoundError';
+
+            public override getMessage(): string {
+                return this.context.field
+                    ? `${this.context.entity} not found: ${this.context.field}${this.context.value ? ' = ' + JSON.stringify(this.context.value) : ''}`
+                    : `${this.context.entity} not found`;
+            }
         }
     };
 }
