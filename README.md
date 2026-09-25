@@ -43,3 +43,4 @@ export const AllMyErrors = {
 - `ExternalServiceError`
 - `UnauthorizedError`
 - `ForbiddenError`
+- `ConflictError`

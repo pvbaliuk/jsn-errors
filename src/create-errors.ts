@@ -95,6 +95,15 @@ export function createErrors(RootError: AnyRootErrorInstance) {
                     ? `Forbidden: cannot ${this.context.action} ${this.context.resource}`
                     : 'Forbidden';
             }
+        },
+        ConflictError: class ConflictError extends RootError<{entity: string; field?: string; value?: unknown;}>{
+            public static override errorName = 'ConflictError';
+
+            public override getMessage(): string {
+                return this.context.field
+                    ? `${this.context.entity} conflict on \'${this.context.field}\'${this.context.value ? ': ' + JSON.stringify(this.context.value) : ''}`
+                    : `${this.context.entity} conflict`;
+            }
         }
     };
 }
