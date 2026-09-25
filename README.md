@@ -7,7 +7,12 @@ const RootError = createRootError(Symbol.for('my-root-error'));
 
 // Now we can implement our custom error
 export class MyCustomError extends RootError<{greeting: 'hello' | 'bonjour';}>{
-    protected static override errorName = 'MyCustomError';
+    public static override errorName = 'MyCustomError';
+    
+    // Optionally, you can override getMessage method to specify the message that is returned by this error by default
+    public override getMessage(): string{
+        return `Custom greeting: ${this.context.greeting}`;
+    }
 }
 
 // ---
@@ -33,14 +38,19 @@ export const AllMyErrors = {
 ```
 
 ### Currently available common errors
-- `NotImplementedError`
-- `InvalidArgumentError`
-- `ConfigurationError`
-- `TimeoutError`
-- `RateLimitError`
-- `ValidationError`
-- `ParseError`
-- `ExternalServiceError`
-- `UnauthorizedError`
-- `ForbiddenError`
-- `ConflictError`
+| Error                            | Context                                                               |
+|----------------------------------|-----------------------------------------------------------------------|
+| `InvalidArgumentError`           | `{ argName: string; expected?: string; actual?: string; }`            |
+| `ConfigurationError`             | `{ key: string; reason?: string; }`                                   |
+| `TimeoutError`                   | no context                                                            |
+| `RateLimitError`                 | `{ retryAfterMs?: number; limit?: number; }`                          |
+| `ValidationError`                | `{ issues: Array<{ path: (string \| number)[]; message: string; }> }` |
+| `NotImplementedError`            | `{ feature?: string; }`                                               |
+| `ParseError`                     | `{ input?: string; format?: string; }`                                |
+| `ExternalServiceError<TDetails>` | `{ service: string; operation?: string; details?: TDetails; }`        |
+| `UnauthorizedError`              | no context                                                            |
+| `ForbiddenError`                 | `{ action?: string; resource?: string; }`                             |
+| `ConflictError`                  | `{ entity: string; field?: string; value?: unknown; }`                |
+
+Each of these implements `getMessage()`, so `err.message` is already a readable string built 
+from error `context` - no need to format it yourself 
